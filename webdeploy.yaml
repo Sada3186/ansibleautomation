@@ -1,0 +1,39 @@
+---
+- hosts: security_group_webinstsg
+  tasks:
+  - name: install latest version of Apache
+    yum:
+      name: "{{ item }}"
+      state: latest
+    loop:
+      - httpd
+      - mariadb-server
+  - name: Copy configuration
+    copy:
+      src: /home/ec2-user/environment/ansibleautomation/httpd.conf
+      dest: /etc/httpd/conf/httpd.conf
+    notify: "myrestart services"
+  - name: Copy code 
+    copy:
+      src: /home/ec2-user/environment/ansibleautomation/index.html
+      dest: /var/www/html
+  - name: start service httpd, if not started
+    service:
+      name: "{{ item }}"
+      state: started
+      enabled: yes
+    loop:
+      - httpd
+      - mariadb
+  handlers:
+  - name: restart apache
+    service:
+      name: "{{ item }}"
+      state: restarted
+    loop:
+      - httpd
+      - mariadb
+    listen: "myrestart services"
+
+      
+      
