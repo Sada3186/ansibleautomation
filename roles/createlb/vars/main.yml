@@ -1,0 +1,8 @@
+---
+vpcid: vpc-0e2fa85c276b4bf29
+subnetid: 
+ - subnet-0023e97c1046ebfcd
+ - subnet-01f93af2aafe0f60d
+region: us-east-1
+sgname: webinstsg
+
